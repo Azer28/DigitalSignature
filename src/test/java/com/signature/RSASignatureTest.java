@@ -1,0 +1,64 @@
+package com.signature;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import java.util.Base64;
+
+import static org.junit.Assert.*;
+
+/**
+ * Created by AzarM on 4/28/2018.
+ */
+public class RSASignatureTest {
+
+    RSASignature signature;
+    @Before
+    public void setUp() throws Exception {
+        signature = new RSASignature();
+    }
+
+    @Test
+    @Ignore
+    public void sign() throws Exception {
+        System.out.println("start signing payment");
+
+                String s = signature.sign( "<request point=\"273\"><menu/></request>");
+        System.out.println(s);
+        Base64.getDecoder().decode(s);
+
+    }
+
+    @Test
+    public void sign1() throws Exception {
+        System.out.println("start signing ...");
+        String s = signature.sign( "<request point=\"273\"><advanced service=\"238\" function=\"contracts\"><attribute name=\"id1\" value=\"0219266\"></attribute></advanced></request>");
+        System.out.println(s);
+        Base64.getDecoder().decode(s);
+    }
+
+    @Test
+    @Ignore
+    public void verify() throws Exception {
+
+    }
+
+    @Test
+    public void verify1() throws Exception {
+        System.out.println("start verifying ...");
+        String plainMessage = "<response><result code=\"0\">\n" +
+                "<folder id=\"3193\" name=\"Services\" img=\"\" order=\"0\">\n" +
+                "<service id=\"405\" code=\"402\" name=\"Baktelecom.az\" img=\"baktelecomaz.png\" order=\"0\" commission=\"0 %\" maxsum=\"80000\" minsum=\"1\" hotkey=\"0\" handlerType=\"AdvancedProvider\" />\n" +
+                "<service id=\"427\" code=\"427\" name=\"Az&#601;riqaz &#304;B\" img=\"azerigas.png\" order=\"1\" commission=\"0 %\" maxsum=\"1500000\" minsum=\"100\" hotkey=\"0\" handlerType=\"AdvancedProvider\" />\n" +
+                "<service id=\"463\" code=\"463\" name=\"TransEuroCom (Internet)\" img=\"transeurocom.png\" order=\"2\" commission=\"0 %\" maxsum=\"1000000\" minsum=\"10\" hotkey=\"0\" handlerType=\"AdvancedProvider\" />\n" +
+                "<service id=\"349\" code=\"349\" name=\"Embafinans\" img=\"bank/embaflogo.png\" order=\"3\" commission=\"0 %\" maxsum=\"500000\" minsum=\"100\" hotkey=\"0\" handlerType=\"UniversalProvider\" />\n" +
+                "<service id=\"238\" code=\"238\" name=\"Kapital Bank\" img=\"bank/kapbank.png\" order=\"3\" commission=\"0 %\" maxsum=\"1000000\" minsum=\"100\" hotkey=\"0\" handlerType=\"AdvancedProvider\" />\n" +
+                "</folder>\n" +
+                "</result></response>";
+        boolean k = signature.verify(plainMessage.getBytes("UTF-8"), "VU2++15RZNouycL2Aa/iUwFqCTaozn4KhQU/dlJ1hzE9wH6NiU/eh0UEx4GhLcLideqJtOhC/Hr6WFCsq5dMuvgDsvozcMbvZUQzTD3zVrzzWOVGzewv3pATwKUzDMvHuBRVlJuaDaKBtrWixFwEDliE/1XQW0TmXKRlxHVcwE0WIla/D9uboSRKHrbqslH4g8FVZ9hW03mu+rDiYWpnu80nJu6xu+G0YQ9F5h/1O8ID09vi6l/z7IWgI+CXNzv0GDfCoBvolXCm0v5PkEJNdlC+SNfQtFA36RywZJKMUnSVaARXRTlzYv1CQSeD0kzj00xnu6b7JG/1vvJ3vKz0Mg==");
+        Assert.assertEquals(k, true);
+    }
+
+}
